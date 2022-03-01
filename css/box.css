@@ -1,7 +1,19 @@
-.inner_box{
-    display: flex;
+.box{
+    position: relative;
+}
+.loading_page{
+    position:absolute;
+    font-size: 5em;
+    top:50vh;
+    left:50vw;
+    transform: translate(-50%, -50%);
+}
+.popular_movie_page{
+    display:none;
     flex-direction: column;
-    align-items: center;
+}
+.popular_movie_page_text{
+    font-size: 2em;
 }
 .box_bar{
     display:flex;
@@ -9,12 +21,18 @@
     width:100%;
     height:40px;
 }
-.box{
-    display: flex;
-    flex-direction: column;
-}
 .movie_container{
-    height:100vh;
-    width:100%;
     text-align: center;
+    display:grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
 }
+.container_item{
+    padding: 20px;
+}
+
+.like_list_page{
+    display: none;
+
+}
+
