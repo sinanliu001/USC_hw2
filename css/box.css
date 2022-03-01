@@ -22,10 +22,9 @@
     height:40px;
 }
 .movie_container{
-    text-align: center;
     display:grid;
-    grid-template-columns: auto auto auto;
-    padding: 10px;
+    grid-template-columns: auto auto auto auto auto auto;
+    gap: 10px;
 }
 .container_item{
     padding: 20px;

@@ -6,6 +6,8 @@ const loading_page = document.querySelector('.loading_page');
 const popular_movie_page = document.querySelector('.popular_movie_page');
 const like_list_page = document.querySelector('.like_list_page');
 
+const movie_container = document.querySelector('.movie_container');
+
 const pre_button = document.querySelector('.pre_button');
 const next_button = document.querySelector('.next_button');
 const button_text = document.querySelector('.text_botton');
@@ -66,7 +68,6 @@ function indiv(data){
     //background.style.backgroundImage = "url(../asset/amc.png)"
     console.log(data)
     loading_page.style.display = "none";
-    popular_movie_page.style.display="flex";
     
     // var span = document.createElement("SPAN");
     // var text = document.createTextNode("w");
@@ -75,9 +76,39 @@ function indiv(data){
     Init(data);
 }
 function Init(data){
+    let frag = document.createDocumentFragment();
+    popular_movie_page.style.display = "flex";
     for (var i = 0; i < 500; i++){
         let item = document.createElement("DIV");
-        let text_item = document.createTextNode(i);
+        item.style.position = "relative";
+        item.style.display = "flex";
+        item.style.flexDirection = "column";
         
+        let like_it_bar = document.createElement("DIV");
+        like_it_bar.style.position = "absolute";
+        like_it_bar.style.width = "100%";
+        like_it_bar.style.backgroundColor = "#FFFFFF"
+        like_it_bar.innerHTML = `<a class="${i}"}>like it</a>`;
+        
+        let item_image = document.createElement("DIV");
+        item_image.style.position = "absoulte"
+        item_image.innerHTML = `<img src="https://image.tmdb.org/t/p/w500${data[i].poster_path}">`
+        item_image.style.height = "90%";
+        item_image.firstChild.style.width = "100%"
+        item_image.firstChild.style.height = "100%"
+        
+        let item_name = document.createElement("DIV");
+        item_name.innerHTML = `<p> ${data[i].original_title} </p>`
+
+        let item_date = document.createElement("DIV");
+        item_date.innerHTML = `<p> ${data[i].release_date} </p>`
+
+        item.appendChild(like_it_bar);
+        item.appendChild(item_image);
+        item.appendChild(item_name);
+        item.appendChild(item_date);
+        frag.appendChild(item);
     }
+    movie_container.appendChild(frag);
+
 }
