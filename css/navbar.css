@@ -19,9 +19,7 @@
     height:100%;
     padding: 0%;
 }
-.nav_bar_selectors{
-    font-size: 1.8em;
-}
+
 .text_moives_list{
     display: flex;
     flex-direction: column;
@@ -38,3 +36,11 @@
     background-color: gray;
     height: 4px;
 }
+.movies_list{
+    font-size: 1.8em;
+}
+.like_list{
+    /* display: none; */
+    font-size: 1.8em;
+}
+
