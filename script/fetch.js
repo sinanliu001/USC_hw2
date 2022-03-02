@@ -74,6 +74,8 @@ function indiv(data){
     // span.appendChild(text);
     // background.appendChild(span);
     Init(data);
+    let exp = Eventfunction(data);
+    exp();
 }
 function Init(data){
     let frag = document.createDocumentFragment();
@@ -86,6 +88,7 @@ function Init(data){
         
         let like_it_bar = document.createElement("DIV");
         like_it_bar.style.position = "absolute";
+        like_it_bar.style.display = "none";
         like_it_bar.style.width = "100%";
         like_it_bar.style.backgroundColor = "#FFFFFF"
         like_it_bar.innerHTML = `<a class="${i}"}>like it</a>`;
@@ -110,5 +113,8 @@ function Init(data){
         frag.appendChild(item);
     }
     movie_container.appendChild(frag);
-
+}
+function Eventfunction(data){
+    let pre_button = 0;
+    
 }
