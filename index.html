@@ -1,26 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <title>mt</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="css/navbar.css">
-        <link rel="stylesheet" href="css/box.css">
-        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/popular.css">
+        <link rel="stylesheet" href="css/like.css">
+        <link rel="stylesheet" href="css/detail.css">
     </head>
     <body>
+        <div class="detail">
+            <a class="exit">Quit</a>
+            <div class="detail_container">
+                <div class="detail_background"></div>
+                <div class="detail_content">
+                    <div class="detail_pic"></div>
+                    <div class="detail_text"></div>
+                </div>
+            </div>
+        </div>
         <header class="header">
             <nav class="nav-bar">
                 <div class="movie-icon">
-                    <img class="icon_image" src="asset/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg">
+                    <img class="icon_image" alt="" src="asset/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg">
                 </div>
                 <div class="Movies_list">
                     <div class="selectors_movies_list">
-                        <p class="text_moives_list">Movies List</p>
+                        <a class="text_moives_list">Movies List</a>
                         <div class="underline"></div>
                     </div>
                 </div>
                 <div class="like_list">
+                    <div class="like_list_length"></div>
                     <div class="selectors_movies_list">
-                        <a class="text_moives_list" href="likelist.html" >Like List</a>
+                        <a class="text_moives_list">Like List</a>
                         <div class="underline"></div>
                     </div>
                 </div>
@@ -43,9 +58,13 @@
 
                 </div>
             </div>
-            <div class="like_list_page"></div>
-            <div class="detail"></div>
+            <div class="like_list_page">
+                <div class=""></div>
+                <div class=""></div>
+                <div class="like_list_container"></div>
+            </div>
         </main>
+
         <script src="script/fetch.js"></script>
     </body>
 </html>

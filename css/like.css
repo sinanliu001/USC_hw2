@@ -1,0 +1,8 @@
+.like_list_page{
+    display: none;
+    flex-direction: column;
+}
+.like_list_container{
+    display:grid;
+    grid-template-columns: auto auto auto auto auto;
+}
