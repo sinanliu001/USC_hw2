@@ -34,6 +34,7 @@ const like_list_bub = document.querySelector('.like_list_length');
 const nav_bar = document.querySelector('.nav-bar');
 
 const like_list_container = document.querySelector('.like_list_container');
+const like_list_drag_button = document.querySelector('.drag_button');
 
 for (var i = 1; i < 502; i++)(
     promise_array.push(fetch(
@@ -307,7 +308,7 @@ function add_like_list(){
     console.log("hello");
 }
 like_list_bar.addEventListener("click", e =>{
-    var transition_like = setInterval(frame_like, 3);
+        var transition_like = setInterval(frame_like, 3);
             var deg = 0;
             function frame_like() {
               if (deg >= 90) {
@@ -315,11 +316,39 @@ like_list_bar.addEventListener("click", e =>{
                 popular_movie_page.style.display = "none";
                 popular_movie_page.style. transform = `rotateY(0deg)`
                 like_list_page.style.display = "flex";
-                for (var index = 0; i < like_list.length; i++){
-                    console.log(like_list[index]);
-                    let likefrag = document.createDocumentFragment();
 
+                let likefrag = document.createDocumentFragment();
+                like_list_drag_button.style.display = "inline";
+                like_list_container.innerHTML = "";
+                for (var index = 0; index < like_list.length; index++){
+                    console.log(like_list[index]);
+
+                    let {poster_path,original_title,release_date} = like_list[index];
+                    let item = document.createElement("DIV");
+                    item.style.position = "relative";
+                    item.style.display = "flex";
+                    item.style.flexDirection = "column";
+                    item.id = index;
+        
+                    let item_image = document.createElement("DIV");
+                    item_image.style.position = "absoulte"
+                    item_image.innerHTML = `<img id=${index} src="https://image.tmdb.org/t/p/w500${poster_path}">`
+                    item_image.style.height = "90%";
+                    item_image.firstChild.style.width = "100%"
+                    item_image.firstChild.style.height = "100%"
+                    
+                    let item_name = document.createElement("DIV");
+                    item_name.innerHTML = `<p> ${original_title} </p>`
+            
+                    let item_date = document.createElement("DIV");
+                    item_date.innerHTML = `<p> ${release_date} </p>`
+            
+                    item.appendChild(item_image);
+                    item.appendChild(item_name);
+                    item.appendChild(item_date);
+                    likefrag.appendChild(item);
                 }
+                like_list_container.appendChild(likefrag);
               } else {
                 deg++;
                 popular_movie_page.style. transform = `rotateY(${deg}deg)`;

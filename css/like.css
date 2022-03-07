@@ -4,5 +4,14 @@
 }
 .like_list_container{
     display:grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-gap: 10px;
+    grid-template-columns: repeat(5, 1fr);
+}
+.like_list_view{
+    display:flex;
+    justify-content: space-between;
+}
+.drag_button{
+    font-size:1.8em;
+    display:none;
 }
