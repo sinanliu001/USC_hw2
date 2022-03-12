@@ -15,3 +15,22 @@
     font-size:1.8em;
     display:none;
 }
+
+.like_list_drag_container{
+    position:fixed;
+    display:none;
+    width:99%;
+    height:99%;
+    margin: 0;
+    padding: 0;
+    background-color: aquamarine;
+}
+.drag_content{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-around;
+    align-items: center;
+    text-align: center;
+}

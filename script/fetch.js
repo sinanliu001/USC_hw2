@@ -36,6 +36,9 @@ const nav_bar = document.querySelector('.nav-bar');
 const like_list_container = document.querySelector('.like_list_container');
 const like_list_drag_button = document.querySelector('.drag_button');
 
+const like_list_drag_container = document.querySelector('.like_list_drag_container');
+const drag_quit = document.querySelector('.drag_quit');
+const drag_content = document.querySelector('.drag_content');
 for (var i = 1; i < 502; i++)(
     promise_array.push(fetch(
        'https://api.themoviedb.org/3/movie/popular?api_key=f4fd559b706454d3e7876ad1c9d54257&language=en-US&page='+i))
@@ -307,6 +310,39 @@ detail_exist.addEventListener("click", (e) => {
 function add_like_list(){
     console.log("hello");
 }
+
+function like_list_order(list){
+    let likefrag = document.createDocumentFragment();
+    for (var index = 0; index < like_list.length; index++){
+        console.log(like_list[index]);
+
+        let {poster_path,original_title,release_date} = like_list[index];
+        let item = document.createElement("DIV");
+        item.style.position = "relative";
+        item.style.display = "flex";
+        item.style.flexDirection = "column";
+        item.id = index;
+
+        let item_image = document.createElement("DIV");
+        item_image.style.position = "absoulte"
+        item_image.innerHTML = `<img id=${index} src="https://image.tmdb.org/t/p/w500${poster_path}">`
+        item_image.style.height = "90%";
+        item_image.firstChild.style.width = "100%"
+        item_image.firstChild.style.height = "100%"
+        
+        let item_name = document.createElement("DIV");
+        item_name.innerHTML = `<p> ${original_title} </p>`
+
+        let item_date = document.createElement("DIV");
+        item_date.innerHTML = `<p> ${release_date} </p>`
+
+        item.appendChild(item_image);
+        item.appendChild(item_name);
+        item.appendChild(item_date);
+        likefrag.appendChild(item);
+    }
+    like_list_container.appendChild(likefrag);
+}
 like_list_bar.addEventListener("click", e =>{
         var transition_like = setInterval(frame_like, 3);
             var deg = 0;
@@ -316,42 +352,35 @@ like_list_bar.addEventListener("click", e =>{
                 popular_movie_page.style.display = "none";
                 popular_movie_page.style. transform = `rotateY(0deg)`
                 like_list_page.style.display = "flex";
-
-                let likefrag = document.createDocumentFragment();
                 like_list_drag_button.style.display = "inline";
                 like_list_container.innerHTML = "";
-                for (var index = 0; index < like_list.length; index++){
-                    console.log(like_list[index]);
-
-                    let {poster_path,original_title,release_date} = like_list[index];
-                    let item = document.createElement("DIV");
-                    item.style.position = "relative";
-                    item.style.display = "flex";
-                    item.style.flexDirection = "column";
-                    item.id = index;
-        
-                    let item_image = document.createElement("DIV");
-                    item_image.style.position = "absoulte"
-                    item_image.innerHTML = `<img id=${index} src="https://image.tmdb.org/t/p/w500${poster_path}">`
-                    item_image.style.height = "90%";
-                    item_image.firstChild.style.width = "100%"
-                    item_image.firstChild.style.height = "100%"
-                    
-                    let item_name = document.createElement("DIV");
-                    item_name.innerHTML = `<p> ${original_title} </p>`
-            
-                    let item_date = document.createElement("DIV");
-                    item_date.innerHTML = `<p> ${release_date} </p>`
-            
-                    item.appendChild(item_image);
-                    item.appendChild(item_name);
-                    item.appendChild(item_date);
-                    likefrag.appendChild(item);
-                }
-                like_list_container.appendChild(likefrag);
+                like_list_order(like_list);
               } else {
                 deg++;
                 popular_movie_page.style. transform = `rotateY(${deg}deg)`;
               }
             }
+})
+
+like_list_drag_button.addEventListener("click", e => {
+    console.log(e.target)
+    like_list_drag_container.style.display = "block";
+    like_list_drag_container.style.zIndex = "10";
+    let dragrag = document.createDocumentFragment();
+    drag_content.innerHTML = "";
+    for (var index = 0; index < like_list.length; index++){
+        let {original_title} = like_list[index];
+        let item = document.createElement("DIV");
+        item.style.position = "relative";
+        item.style.display = "flex";
+        item.style.flexDirection = "column";
+        item.id = index;
+        let item_name = document.createElement("DIV");
+        item_name.innerHTML = `<p> ${original_title} </p>`
+
+        item.appendChild(item_name);
+        console.assert(item);
+        dragrag.appendChild(item);
+    }
+    drag_content.appendChild(dragrag);
 })
