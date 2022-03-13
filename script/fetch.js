@@ -38,12 +38,14 @@ const like_list_drag_button = document.querySelector('.drag_button');
 
 const like_list_drag_container = document.querySelector('.like_list_drag_container');
 const drag_quit = document.querySelector('.drag_quit');
+const drag_list = document.querySelector('.drag_list');
 const drag_content = document.querySelector('.drag_content');
+
+
 for (var i = 1; i < 502; i++)(
     promise_array.push(fetch(
        'https://api.themoviedb.org/3/movie/popular?api_key=f4fd559b706454d3e7876ad1c9d54257&language=en-US&page='+i))
 )
-console.log(promise_array.length);
 
 
 fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=f4fd559b706454d3e7876ad1c9d54257&language=en-US')
@@ -86,13 +88,11 @@ function count(data){
         // console.log(list_id);
         movie_id_list.push(element);
     });
-    console.log(movie_id_list);
     return movie_id_list;
 }
 
 function indiv(data){
     //background.style.backgroundImage = "url(../asset/amc.png)"
-    console.log(data)
     loading_page.style.display = "none";
     popular_movie_page.style.display = "flex";
     // var span = document.createElement("SPAN");
@@ -134,7 +134,6 @@ function indiv(data){
                 if (index === -1){
                     like_list.push(movie_list[id]);
                 }
-                console.log(like_list);
                 if (like_list.length>0){
                     like_list_bar.style.display = "block";
                     like_list_bub.innerHTML = `<a>${like_list.length}</a>`;
@@ -191,7 +190,6 @@ function indiv(data){
                     frag_click.appendChild(gen_list);
                     frag_click.appendChild(movie_intro);
                     frag_click.appendChild(logo_list);
-                    console.log(movie_list[e.currentTarget.id]);
                     detail_text.innerHTML = "";
                     detail_text.appendChild(frag_click);
 
@@ -208,7 +206,6 @@ function indiv(data){
                             element => {
                                 let logo = element.logo_path;
                                 if (logo){
-                                    console.log(logo);
                                     let logo_path =  document.createElement('img');
                                     logo_path.src = `https://image.tmdb.org/t/p/w200${logo}`;
                                     logo_path.width = "80";
@@ -314,7 +311,6 @@ function add_like_list(){
 function like_list_order(list){
     let likefrag = document.createDocumentFragment();
     for (var index = 0; index < like_list.length; index++){
-        console.log(like_list[index]);
 
         let {poster_path,original_title,release_date} = like_list[index];
         let item = document.createElement("DIV");
@@ -363,24 +359,100 @@ like_list_bar.addEventListener("click", e =>{
 })
 
 like_list_drag_button.addEventListener("click", e => {
-    console.log(e.target)
     like_list_drag_container.style.display = "block";
     like_list_drag_container.style.zIndex = "10";
     let dragrag = document.createDocumentFragment();
-    drag_content.innerHTML = "";
+    drag_list.innerHTML = "";
     for (var index = 0; index < like_list.length; index++){
         let {original_title} = like_list[index];
         let item = document.createElement("DIV");
-        item.style.position = "relative";
         item.style.display = "flex";
-        item.style.flexDirection = "column";
+        item.style.borderStyle = "solid";
+        item.style.borderRadius = ".5em"
+        item.style.width = "400px"
         item.id = index;
+        item.className = "element";
+        item.draggable = "true";
+        // item.ondragstart = (e) => {console.log("hello")};
+
         let item_name = document.createElement("DIV");
-        item_name.innerHTML = `<p> ${original_title} </p>`
+        item_name.innerHTML = `<p id=${index}> ${original_title} </p>`
 
         item.appendChild(item_name);
         console.assert(item);
         dragrag.appendChild(item);
     }
-    drag_content.appendChild(dragrag);
+    drag_list.appendChild(dragrag);
 })
+
+ function handleDragStart(e) {
+     console.log("hello");
+   }
+  
+   function handleDragEnd(e) {
+     this.style.opacity = '1';
+   }
+// const mouseUpHandler = function(e) {
+//     e.removeEventListener('mousemove', mouseMoveHandler);
+//     e.removeEventListener('mouseup', mouseUpHandler);
+//     console.
+// };
+function dragaction() {
+    var dragged;
+    drag_list.addEventListener("drag", (e) => {}, false)
+    drag_list.addEventListener("dragstart", function(event) {
+        // store a ref. on the dragged elem
+        dragged = event.target;
+        // make it half transparent
+        drag_list.children[dragged.id].style.opacity = 0.5;});
+    drag_list.addEventListener("dragend", function(event) {
+        var dragged = event.target;
+        // make it half transparent
+        drag_list.children[dragged.id].style.opacity = 1;});
+    drag_list.addEventListener("dragover", function(event) {
+        event.preventDefault()});
+    drag_list.addEventListener("dragenter", function(event) {
+        // highlight potential drop target when the draggable element enters it
+        // if (event.target.className == "dropzone") {
+        //   event.target.style.background = "purple";
+        // }
+    });
+      
+    drag_list.addEventListener("dragleave", function(event) {
+        // reset background of potential drop target when the draggable element leaves it
+        // if (event.target.className == "dropzone") {
+        //   event.target.style.background = "";
+        // }
+      
+    });
+    drag_list.addEventListener("drop", function(event) {
+        // prevent default action (open as link for some elements)
+
+        event.preventDefault();
+        // move dragged elem to the selected drop target
+
+        if (event.target.id&&event.id!==dragged.id) {
+        //   event.target.style.background = "";
+        //   dragged.parentNode.removeChild( dragged );
+        //   event.target.appendChild( dragged );
+            let frag = document.createDocumentFragment();
+            console.log(like_list);
+            like_list.concat(like_list);
+            const a = like_list.index(event.target.id);
+            const b = like_list.index(targged.id);
+            like_list[event.target.id] == b;
+            like_list[targged.id] == a;
+            console.log(like_list);
+    }});
+    
+}
+dragaction();
+// drag_list.addEventListener("mouseup", (e) =>{
+//     const targetdrop = drag_list.children[e.target.id];
+    
+//     console.log( targetdrop );
+// })
+// drag_list.addEventListener("dra", (e)=>{
+//     const targetdrag = drag_list.children[e.target.id];
+// // })
+// drag_list.ondragstart = (e) => {console.log("hello")};

@@ -28,9 +28,14 @@
 .drag_content{
     display:flex;
     flex-direction: column;
-    flex-wrap: wrap;
     justify-content: center;
-    align-content: space-around;
+    width:99%;
+    height:99%;
+}
+.drag_list{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     align-items: center;
     text-align: center;
 }
