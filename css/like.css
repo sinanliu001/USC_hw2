@@ -39,3 +39,7 @@
     align-items: center;
     text-align: center;
 }
+.drag_quit{
+    font-size: 1.8em;
+    float:right;
+}

@@ -112,7 +112,7 @@ function indiv(data){
     {
         if(e.target.id){
             let item_sellect = movie_container.children[e.target.id];
-            var id = e.target.id;
+            var id = item_sellect.id;
             let sellect_text = item_sellect.firstChild;
             sellect_text.style.display = "flex";
             var transition = setInterval(frame, 10);
@@ -226,7 +226,7 @@ function indiv(data){
 function Pagechange(){
     var page_number = 0;
     return function (){
-        var i, j;
+        var i;
         if (!page_button){
             pre_button.disabled = true;
             i = 0;
@@ -253,7 +253,7 @@ function Pagechange(){
             item.style.position = "relative";
             item.style.display = "flex";
             item.style.flexDirection = "column";
-            item.id = x+i;
+            item.id =x+i ;
 
             let like_it_bar = document.createElement("DIV");
             like_it_bar.style.display = "none";
@@ -339,6 +339,29 @@ function like_list_order(list){
     }
     like_list_container.appendChild(likefrag);
 }
+function draglistorder(){
+    let dragrag = document.createDocumentFragment();
+    for (var index = 0; index < like_list.length; index++){
+        let {original_title} = like_list[index];
+        let item = document.createElement("DIV");
+        item.style.display = "block";
+        item.style.borderStyle = "solid";
+        item.style.borderRadius = ".5em"
+        item.style.width = "400px"
+        item.style.textAlign = "center";
+        item.style.padding = "10px";
+        item.id = index;
+        item.className = "element";
+        item.draggable = "true";
+        // item.ondragstart = (e) => {console.log("hello")};
+
+        item.innerHTML = `${original_title}`
+
+        console.assert(item);
+        dragrag.appendChild(item);
+    }
+    drag_list.appendChild(dragrag);
+}
 like_list_bar.addEventListener("click", e =>{
         var transition_like = setInterval(frame_like, 3);
             var deg = 0;
@@ -363,35 +386,9 @@ like_list_drag_button.addEventListener("click", e => {
     like_list_drag_container.style.zIndex = "10";
     let dragrag = document.createDocumentFragment();
     drag_list.innerHTML = "";
-    for (var index = 0; index < like_list.length; index++){
-        let {original_title} = like_list[index];
-        let item = document.createElement("DIV");
-        item.style.display = "flex";
-        item.style.borderStyle = "solid";
-        item.style.borderRadius = ".5em"
-        item.style.width = "400px"
-        item.id = index;
-        item.className = "element";
-        item.draggable = "true";
-        // item.ondragstart = (e) => {console.log("hello")};
-
-        let item_name = document.createElement("DIV");
-        item_name.innerHTML = `<p id=${index}> ${original_title} </p>`
-
-        item.appendChild(item_name);
-        console.assert(item);
-        dragrag.appendChild(item);
-    }
-    drag_list.appendChild(dragrag);
+    draglistorder();
 })
 
- function handleDragStart(e) {
-     console.log("hello");
-   }
-  
-   function handleDragEnd(e) {
-     this.style.opacity = '1';
-   }
 // const mouseUpHandler = function(e) {
 //     e.removeEventListener('mousemove', mouseMoveHandler);
 //     e.removeEventListener('mouseup', mouseUpHandler);
@@ -430,29 +427,24 @@ function dragaction() {
 
         event.preventDefault();
         // move dragged elem to the selected drop target
-
+        
         if (event.target.id&&event.id!==dragged.id) {
         //   event.target.style.background = "";
         //   dragged.parentNode.removeChild( dragged );
         //   event.target.appendChild( dragged );
             let frag = document.createDocumentFragment();
-            console.log(like_list);
-            like_list.concat(like_list);
-            const a = like_list.index(event.target.id);
-            const b = like_list.index(targged.id);
-            like_list[event.target.id] == b;
-            like_list[targged.id] == a;
-            console.log(like_list);
+            const a = like_list[event.target.id];
+            const b = like_list[dragged.id];
+            like_list[event.target.id] = b;
+            like_list[dragged.id] = a;
+            drag_list.innerHTML = "";
+            draglistorder();
+            like_list_container.innerHTML = "";
+            like_list_order(like_list);
     }});
     
 }
 dragaction();
-// drag_list.addEventListener("mouseup", (e) =>{
-//     const targetdrop = drag_list.children[e.target.id];
-    
-//     console.log( targetdrop );
-// })
-// drag_list.addEventListener("dra", (e)=>{
-//     const targetdrag = drag_list.children[e.target.id];
-// // })
-// drag_list.ondragstart = (e) => {console.log("hello")};
+drag_quit.addEventListener("click", (e)=>{
+    like_list_drag_container.style.display = "none";
+})
