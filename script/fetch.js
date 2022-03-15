@@ -2,6 +2,7 @@
 const movie_id_list = [];
 const movie_list = [];
 
+
 const loading_page = document.querySelector('.loading_page');
 const popular_movie_page = document.querySelector('.popular_movie_page');
 const like_list_page = document.querySelector('.like_list_page');
@@ -32,14 +33,6 @@ const like_list = [];
 const like_list_bar = document.querySelector('.like_list');
 const like_list_bub = document.querySelector('.like_list_length');
 const nav_bar = document.querySelector('.nav-bar');
-
-const like_list_container = document.querySelector('.like_list_container');
-const like_list_drag_button = document.querySelector('.drag_button');
-
-const like_list_drag_container = document.querySelector('.like_list_drag_container');
-const drag_quit = document.querySelector('.drag_quit');
-const drag_list = document.querySelector('.drag_list');
-const drag_content = document.querySelector('.drag_content');
 
 
 for (var i = 1; i < 502; i++)(
@@ -84,8 +77,6 @@ function count(data){
     // console.log(data['genres'].length);
     let list_number =  data['genres'].length;
     data['genres'].forEach(element => {
-        // console.log(element);
-        // console.log(list_id);
         movie_id_list.push(element);
     });
     return movie_id_list;
@@ -100,129 +91,128 @@ function indiv(data){
     // span.appendChild(text);
     // background.appendChild(span);
     page_rend();
+}
 
-    box_bar.addEventListener("click", (e) => {
-        // e.target
-        if (e.target.className!== undefined) {
-          page_button = e.target;
-          page_rend();
+box_bar.addEventListener("click", (e) => {
+    // e.target
+    if (e.target.className!== undefined) {
+      page_button = e.target;
+      page_rend();
+    }
+  });
+movie_container.addEventListener("mouseover", (e)=>
+{
+    if(e.target.id){
+        let item_sellect = movie_container.children[e.target.id];
+        var id = item_sellect.id;
+        let sellect_text = item_sellect.firstChild;
+        sellect_text.style.display = "flex";
+        var transition = setInterval(frame, 10);
+        var width = 0;
+        function frame() {
+          if (width >= 100) {
+            clearInterval(transition);
+          } else {
+            width++;
+            sellect_text.firstChild.style.width = width + '%';
+          }
         }
-      });
-    movie_container.addEventListener("mouseover", (e)=>
-    {
-        if(e.target.id){
-            let item_sellect = movie_container.children[e.target.id];
-            var id = item_sellect.id;
-            let sellect_text = item_sellect.firstChild;
-            sellect_text.style.display = "flex";
-            var transition = setInterval(frame, 10);
-            var width = 0;
-            function frame() {
-              if (width >= 100) {
-                clearInterval(transition);
-              } else {
-                width++;
-                sellect_text.firstChild.style.width = width + '%';
-              }
+        item_sellect.addEventListener("mouseleave", (e)=>
+        {
+            sellect_text.style.display = "none";
+        });
+        sellect_text.addEventListener("mousedown", e=> {
+            const index = like_list.findIndex(object => object.id === movie_list[id].id);
+            if (index === -1){
+                like_list.push(movie_list[id]);
             }
-            item_sellect.addEventListener("mouseleave", (e)=>
-            {
-                sellect_text.style.display = "none";
-            });
-            sellect_text.addEventListener("mousedown", e=> {
-                const index = like_list.findIndex(object => object.id === movie_list[id].id);
-                if (index === -1){
-                    like_list.push(movie_list[id]);
-                }
-                if (like_list.length>0){
-                    like_list_bar.style.display = "block";
-                    like_list_bub.innerHTML = `<a>${like_list.length}</a>`;
-                    
-                }
-            });
-            sellect_text.addEventListener("click", e => console.log("hello"))
+            if (like_list.length>0){
+                like_list_bar.style.display = "block";
+                like_list_bub.innerHTML = `<a>${like_list.length}</a>`;
+                
+            }
+        });
+        sellect_text.addEventListener("click", e => console.log("hello"))
 
-            item_sellect.addEventListener("click", e=>
-            {
-                if (e.target.id){
-                    movie_detail.style.display = "flex";
-                    movie_container.style.display = "none";
-                    movie_detail.style.zIndex = "99";
-                    detail_bg.style.backgroundImage = `url('https://image.tmdb.org/t/p/w500${movie_list[e.currentTarget.id].backdrop_path}')`;
+        item_sellect.addEventListener("click", e=>
+        {
+            if (e.target.id){
+                movie_detail.style.display = "flex";
+                movie_container.style.display = "none";
+                movie_detail.style.zIndex = "99";
+                detail_bg.style.backgroundImage = `url('https://image.tmdb.org/t/p/w500${movie_list[e.currentTarget.id].backdrop_path}')`;
 
-                    detail_img.style.backgroundImage = `url('https://image.tmdb.org/t/p/w500${movie_list[e.currentTarget.id].poster_path}')`;
+                detail_img.style.backgroundImage = `url('https://image.tmdb.org/t/p/w500${movie_list[e.currentTarget.id].poster_path}')`;
 
-                    let frag_click = document.createDocumentFragment();
+                let frag_click = document.createDocumentFragment();
 
-                    let movie_name = document.createElement("DIV");
-                    movie_name.innerHTML = `<p>${movie_list[e.currentTarget.id].original_title}</p>`;
-                    movie_name.style.fontSize = "2em";
+                let movie_name = document.createElement("DIV");
+                movie_name.innerHTML = `<p>${movie_list[e.currentTarget.id].original_title}</p>`;
+                movie_name.style.fontSize = "2em";
 
-                    let gen_list = document.createElement("DIV");
-                    gen_list.style.display = "flex";
-                    gen_list.style.justifyContent = "space-between";
-                    gen_list.style.gap = "10px";
-                    movie_list[e.currentTarget.id].genre_ids.forEach(
+                let gen_list = document.createElement("DIV");
+                gen_list.style.display = "flex";
+                gen_list.style.justifyContent = "space-between";
+                gen_list.style.gap = "10px";
+                movie_list[e.currentTarget.id].genre_ids.forEach(
+                    element => {
+                        let item_gener = document.createElement("DIV");
+                        let text = `<a style="background-color:${color[color_counter]}">${movie_id_list.find(x => x.id === element).name}</a>`;
+                        let result= text.fontcolor("white");
+                        item_gener.innerHTML = result;
+                        item_gener.style.font = "italic bold 20px arial,serif";
+                        color_counter++;
+                        if (color_counter === color.length){
+                            color_counter = 0;
+                        }
+                        gen_list.appendChild(item_gener);
+                    }
+                )
+
+                let movie_intro = document.createElement("DIV")
+                movie_intro.innerHTML = `<p>${movie_list[e.currentTarget.id].overview}</p>`
+                movie_intro.style.width = "30vw"; 
+                
+                let logo_list = document.createElement("DIV");
+                logo_list.style.width = "40vw";
+                logo_list.style.minHeight = "10vh";
+                logo_list.style.background = "gray";
+
+                frag_click.appendChild(movie_name);
+                frag_click.appendChild(gen_list);
+                frag_click.appendChild(movie_intro);
+                frag_click.appendChild(logo_list);
+                detail_text.innerHTML = "";
+                detail_text.appendChild(frag_click);
+
+                let movie_supporter = document.createElement("DIV");
+                movie_supporter.style.display ="flex";
+                movie_supporter.style.flexWrap = "wrap";
+                movie_supporter.style.alignItems = "center";
+                fetch(`https://api.themoviedb.org/3/movie/${movie_list[e.currentTarget.id].id}?api_key=f4fd559b706454d3e7876ad1c9d54257`)
+                .then(res => res.json())
+                .then(data =>{
+                    let comp_list = data.production_companies;
+                    let logo_frg = document.createDocumentFragment();
+                    comp_list.forEach(
                         element => {
-                            let item_gener = document.createElement("DIV");
-                            let text = `<a style="background-color:${color[color_counter]}">${movie_id_list.find(x => x.id === element).name}</a>`;
-                            let result= text.fontcolor("white");
-                            item_gener.innerHTML = result;
-                            item_gener.style.font = "italic bold 20px arial,serif";
-                            color_counter++;
-                            if (color_counter === color.length){
-                                color_counter = 0;
+                            let logo = element.logo_path;
+                            if (logo){
+                                let logo_path =  document.createElement('img');
+                                logo_path.src = `https://image.tmdb.org/t/p/w200${logo}`;
+                                logo_path.width = "80";
+                                logo_frg.appendChild(logo_path);
                             }
-                            gen_list.appendChild(item_gener);
                         }
                     )
-
-                    let movie_intro = document.createElement("DIV")
-                    movie_intro.innerHTML = `<p>${movie_list[e.currentTarget.id].overview}</p>`
-                    movie_intro.style.width = "30vw"; 
-                    
-                    let logo_list = document.createElement("DIV");
-                    logo_list.style.width = "40vw";
-                    logo_list.style.minHeight = "10vh";
-                    logo_list.style.background = "gray";
-
-                    frag_click.appendChild(movie_name);
-                    frag_click.appendChild(gen_list);
-                    frag_click.appendChild(movie_intro);
-                    frag_click.appendChild(logo_list);
-                    detail_text.innerHTML = "";
-                    detail_text.appendChild(frag_click);
-
-                    let movie_supporter = document.createElement("DIV");
-                    movie_supporter.style.display ="flex";
-                    movie_supporter.style.flexWrap = "wrap";
-                    movie_supporter.style.alignItems = "center";
-                    fetch(`https://api.themoviedb.org/3/movie/${movie_list[e.currentTarget.id].id}?api_key=f4fd559b706454d3e7876ad1c9d54257`)
-                    .then(res => res.json())
-                    .then(data =>{
-                        let comp_list = data.production_companies;
-                        let logo_frg = document.createDocumentFragment();
-                        comp_list.forEach(
-                            element => {
-                                let logo = element.logo_path;
-                                if (logo){
-                                    let logo_path =  document.createElement('img');
-                                    logo_path.src = `https://image.tmdb.org/t/p/w200${logo}`;
-                                    logo_path.width = "80";
-                                    logo_frg.appendChild(logo_path);
-                                }
-                            }
-                        )
-                        detail_text.lastChild.appendChild(logo_frg);
-                    }).catch(error => console.log('comp_error'))
-                }
-                    
-            });
-            
-        }
-    })
-
-}
+                    detail_text.lastChild.appendChild(logo_frg);
+                }).catch(error => console.log('comp_error'))
+            }
+                
+        });
+        
+    }
+})
 function Pagechange(){
     var page_number = 0;
     return function (){
@@ -300,151 +290,10 @@ function Pagechange(){
 }
 
 var page_rend = Pagechange();
+
 detail_exist.addEventListener("click", (e) => {
     movie_detail.style.display = "none";
     movie_container.style.display = "grid";
 })
-function add_like_list(){
-    console.log("hello");
-}
 
-function like_list_order(list){
-    let likefrag = document.createDocumentFragment();
-    for (var index = 0; index < like_list.length; index++){
-
-        let {poster_path,original_title,release_date} = like_list[index];
-        let item = document.createElement("DIV");
-        item.style.position = "relative";
-        item.style.display = "flex";
-        item.style.flexDirection = "column";
-        item.id = index;
-
-        let item_image = document.createElement("DIV");
-        item_image.style.position = "absoulte"
-        item_image.innerHTML = `<img id=${index} src="https://image.tmdb.org/t/p/w500${poster_path}">`
-        item_image.style.height = "90%";
-        item_image.firstChild.style.width = "100%"
-        item_image.firstChild.style.height = "100%"
-        
-        let item_name = document.createElement("DIV");
-        item_name.innerHTML = `<p> ${original_title} </p>`
-
-        let item_date = document.createElement("DIV");
-        item_date.innerHTML = `<p> ${release_date} </p>`
-
-        item.appendChild(item_image);
-        item.appendChild(item_name);
-        item.appendChild(item_date);
-        likefrag.appendChild(item);
-    }
-    like_list_container.appendChild(likefrag);
-}
-function draglistorder(){
-    let dragrag = document.createDocumentFragment();
-    for (var index = 0; index < like_list.length; index++){
-        let {original_title} = like_list[index];
-        let item = document.createElement("DIV");
-        item.style.display = "block";
-        item.style.borderStyle = "solid";
-        item.style.borderRadius = ".5em"
-        item.style.width = "400px"
-        item.style.textAlign = "center";
-        item.style.padding = "10px";
-        item.id = index;
-        item.className = "element";
-        item.draggable = "true";
-        // item.ondragstart = (e) => {console.log("hello")};
-
-        item.innerHTML = `${original_title}`
-
-        console.assert(item);
-        dragrag.appendChild(item);
-    }
-    drag_list.appendChild(dragrag);
-}
-like_list_bar.addEventListener("click", e =>{
-        var transition_like = setInterval(frame_like, 3);
-            var deg = 0;
-            function frame_like() {
-              if (deg >= 90) {
-                clearInterval(transition_like);
-                popular_movie_page.style.display = "none";
-                popular_movie_page.style. transform = `rotateY(0deg)`
-                like_list_page.style.display = "flex";
-                like_list_drag_button.style.display = "inline";
-                like_list_container.innerHTML = "";
-                like_list_order(like_list);
-              } else {
-                deg++;
-                popular_movie_page.style. transform = `rotateY(${deg}deg)`;
-              }
-            }
-})
-
-like_list_drag_button.addEventListener("click", e => {
-    like_list_drag_container.style.display = "block";
-    like_list_drag_container.style.zIndex = "10";
-    let dragrag = document.createDocumentFragment();
-    drag_list.innerHTML = "";
-    draglistorder();
-})
-
-// const mouseUpHandler = function(e) {
-//     e.removeEventListener('mousemove', mouseMoveHandler);
-//     e.removeEventListener('mouseup', mouseUpHandler);
-//     console.
-// };
-function dragaction() {
-    var dragged;
-    drag_list.addEventListener("drag", (e) => {}, false)
-    drag_list.addEventListener("dragstart", function(event) {
-        // store a ref. on the dragged elem
-        dragged = event.target;
-        // make it half transparent
-        drag_list.children[dragged.id].style.opacity = 0.5;});
-    drag_list.addEventListener("dragend", function(event) {
-        var dragged = event.target;
-        // make it half transparent
-        drag_list.children[dragged.id].style.opacity = 1;});
-    drag_list.addEventListener("dragover", function(event) {
-        event.preventDefault()});
-    drag_list.addEventListener("dragenter", function(event) {
-        // highlight potential drop target when the draggable element enters it
-        // if (event.target.className == "dropzone") {
-        //   event.target.style.background = "purple";
-        // }
-    });
-      
-    drag_list.addEventListener("dragleave", function(event) {
-        // reset background of potential drop target when the draggable element leaves it
-        // if (event.target.className == "dropzone") {
-        //   event.target.style.background = "";
-        // }
-      
-    });
-    drag_list.addEventListener("drop", function(event) {
-        // prevent default action (open as link for some elements)
-
-        event.preventDefault();
-        // move dragged elem to the selected drop target
-        
-        if (event.target.id&&event.id!==dragged.id) {
-        //   event.target.style.background = "";
-        //   dragged.parentNode.removeChild( dragged );
-        //   event.target.appendChild( dragged );
-            let frag = document.createDocumentFragment();
-            const a = like_list[event.target.id];
-            const b = like_list[dragged.id];
-            like_list[event.target.id] = b;
-            like_list[dragged.id] = a;
-            drag_list.innerHTML = "";
-            draglistorder();
-            like_list_container.innerHTML = "";
-            like_list_order(like_list);
-    }});
-    
-}
-dragaction();
-drag_quit.addEventListener("click", (e)=>{
-    like_list_drag_container.style.display = "none";
-})
+export {like_list, movie_list, popular_movie_page};
